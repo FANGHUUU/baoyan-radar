@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0F4C81">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="保研雷达">
+  <meta name="description" content="华电能源动力类专属保研夏令营与预推免信息看板">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  <title>保研夏令营及预推免信息雷达 v2</title>
+  <style>
+    :root {
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --text: #1e293b;
+      --sub: #64748b;
+      --primary: #0F4C81;
+      --accent: #3b82f6;
+      --border: #e2e8f0;
+      --shadow: 0 1px 3px rgba(0,0,0,0.06);
+      --s-tier: #dc2626;
+      --a-tier: #ea580c;
+      --b-tier: #2563eb;
+      --c-tier: #6b7280;
+      --st-none: #94a3b8;
+      --st-applied: #3b82f6;
+      --st-qualified: #f59e0b;
+      --st-offer: #22c55e;
+      --st-rejected: #ef4444;
+      --cat-c9: #dc2626;
+      --cat-985: #ea580c;
+      --cat-211: #2563eb;
+      --cat-institute: #7c3aed;
+      --cat-double-first: #0891b2;
+      --cat-strong: #059669;
+      --left-w: 220px;
+      --right-w: 300px;
+      --gap: 10px;
+      --radius: 10px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--primary), #1a6db5);
+      color: #fff;
+      padding: 10px 14px 8px;
+      flex-shrink: 0;
+    }
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 6px;
+    }
+    .header-top h1 { font-size: 1.05rem; font-weight: 700; }
+    .version { font-size: 0.6rem; opacity: 0.55; font-weight: 400; }
+    .updated { font-size: 0.68rem; opacity: 0.8; }
+    .search-row { position: relative; margin-bottom: 4px; }
+    .search-input {
+      width: 100%;
+      padding: 8px 14px;
+      border-radius: 20px;
+      border: none;
+      outline: none;
+      font-size: 0.83rem;
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+      backdrop-filter: blur(4px);
+    }
+    .search-input::placeholder { color: rgba(255,255,255,0.5); }
+    .change-summary {
+      font-size: 0.68rem;
+      opacity: 0.8;
+      margin-bottom: 6px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .filter-quick {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .pill {
+      padding: 4px 11px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.3);
+      font-size: 0.68rem;
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+      transition: all 0.12s;
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      font-weight: 500;
+    }
+    .pill:hover { background: rgba(255,255,255,0.2); }
+    .pill.active { background: #fff; color: var(--primary); border-color: #fff; font-weight: 700; }
+    .pill .count { font-size: 0.6rem; opacity: 0.7; margin-left: 2px; }
+    .mobile-filter-btn {
+      display: none;
+      padding: 4px 11px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.3);
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      font-size: 0.68rem;
+      cursor: pointer;
+    }
+
+    .main {
+      display: grid;
+      grid-template-columns: var(--left-w) 1fr var(--right-w);
+      gap: var(--gap);
+      padding: 6px 10px;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .panel-left, .panel-right {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow-y: auto;
+      padding: 8px 10px;
+    }
+    .panel-center {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .panel-section { margin-bottom: 12px; }
+    .panel-section h3 {
+      font-size: 0.7rem;
+      color: var(--sub);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+    .filter-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.76rem;
+      transition: background 0.1s;
+    }
+    .filter-item:hover { background: var(--bg); }
+    .filter-item.active { background: #dbeafe; color: var(--accent); font-weight: 600; }
+    .filter-item .badge-count {
+      font-size: 0.63rem;
+      color: var(--sub);
+      background: var(--bg);
+      padding: 1px 6px;
+      border-radius: 8px;
+    }
+
+    .list-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      flex-shrink: 0;
+    }
+    .result-count { font-size: 0.73rem; color: var(--sub); }
+    .view-btn {
+      padding: 4px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      font-size: 0.7rem;
+      cursor: pointer;
+      margin-left: 4px;
+    }
+    .view-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+    .active-filters {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+      margin-bottom: 5px;
+      flex-shrink: 0;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      padding: 2px 9px;
+      border-radius: 10px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.66rem;
+      cursor: pointer;
+    }
+    .chip::after { content: ' ×'; font-size: 0.85rem; }
+
+    .camp-list {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding-right: 2px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 8px;
+      padding: 9px 11px;
+      box-shadow: var(--shadow);
+      border-left: 3px solid var(--border);
+      cursor: pointer;
+      transition: all 0.1s;
+    }
+    .card:hover { transform: translateY(-1px); box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+    .card.selected { box-shadow: 0 0 0 2px var(--accent); }
+    .card.c9           { border-left-color: var(--cat-c9); }
+    .card.\39 85       { border-left-color: var(--cat-985); }
+    .card.\32 11       { border-left-color: var(--cat-211); }
+    .card.institute    { border-left-color: var(--cat-institute); }
+    .card.double_first  { border-left-color: var(--cat-double-first); }
+    .card.strong       { border-left-color: var(--cat-strong); }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 5px;
+    }
+    .card-university { font-size: 0.8rem; font-weight: 700; }
+    .card-school { font-size: 0.68rem; color: var(--sub); }
+    .card-badges { display: flex; gap: 3px; flex-shrink: 0; flex-wrap: wrap; }
+    .badge {
+      padding: 1px 6px;
+      border-radius: 7px;
+      font-size: 0.58rem;
+      font-weight: 600;
+      white-space: nowrap;
+      line-height: 1.5;
+    }
+    .badge.p-s { background: #fee2e2; color: #991b1b; }
+    .badge.p-a { background: #ffedd5; color: #9a3412; }
+    .badge.p-b { background: #dbeafe; color: #1e40af; }
+    .badge.p-c { background: #f1f5f9; color: #475569; }
+    .badge.summer_camp     { background: #dcfce7; color: #166534; }
+    .badge.pre_admission   { background: #fef3c7; color: #92400e; }
+    .badge.open_day        { background: #dbeafe; color: #1e40af; }
+    .badge.direct_phd      { background: #ede9fe; color: #5b21b6; }
+    .badge.master_academic     { background: #dcfce7; color: #166534; }
+    .badge.master_professional { background: #dbeafe; color: #1e40af; }
+    .badge.direct_phd_deg      { background: #ede9fe; color: #5b21b6; }
+    .badge.master_undecided    { background: #f1f5f9; color: #475569; }
+    .badge.new     { background: #dcfce7; color: #166534; }
+    .badge.changed { background: #fef3c7; color: #92400e; }
+    .badge.urgent  { background: #fee2e2; color: #991b1b; }
+    .badge.offer-yes { background: #dcfce7; color: #166534; }
+    .badge.st-none     { background: #f1f5f9; color: #64748b; }
+    .badge.st-applied  { background: #dbeafe; color: #1e40af; }
+    .badge.st-qualified{ background: #fef3c7; color: #92400e; }
+    .badge.st-offer    { background: #dcfce7; color: #166534; }
+    .badge.st-rejected { background: #fee2e2; color: #991b1b; }
+    .badge.has-note { background: #fef3c7; color: #92400e; }
+
+    .card-title { font-size: 0.78rem; margin: 4px 0 2px; font-weight: 600; }
+    .card-meta { font-size: 0.66rem; color: var(--sub); display: flex; flex-wrap: wrap; gap: 2px 10px; }
+    .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; }
+    .card-deadline { font-weight: 700; font-size: 0.7rem; }
+    .card-deadline.urgent { color: #dc2626; }
+    .card-deadline.warn   { color: #ea580c; }
+    .card-deadline.ok     { color: #6b7280; }
+
+    .camp-list.table-view { gap: 0; }
+    .camp-list.table-view .card {
+      display: grid;
+      grid-template-columns: 28px 140px 1fr 75px 80px 55px;
+      gap: 6px;
+      align-items: center;
+      border-left: none;
+      border-bottom: 1px solid var(--border);
+      border-radius: 0;
+      box-shadow: none;
+      padding: 7px 8px;
+      font-size: 0.76rem;
+    }
+    .camp-list.table-view .card:hover { background: #f8fafc; transform: none; }
+    .camp-list.table-view .card-top { display: contents; }
+    .camp-list.table-view .card-university { font-size: 0.72rem; }
+    .camp-list.table-view .card-school { display: none; }
+    .camp-list.table-view .card-title { margin: 0; font-size: 0.76rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .camp-list.table-view .card-meta, .camp-list.table-view .card-footer { display: none; }
+    .camp-list.table-view .card-badges { position: static; }
+
+    .detail-empty {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--sub);
+      font-size: 0.83rem;
+      text-align: center;
+      padding: 20px;
+    }
+    .detail-content { position: relative; }
+    .detail-content h2 { font-size: 0.92rem; margin-bottom: 8px; padding-right: 24px; }
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 4px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.76rem;
+    }
+    .detail-label { color: var(--sub); flex-shrink: 0; }
+    .detail-value { text-align: right; font-weight: 500; }
+
+    .detail-status { margin: 10px 0; }
+    .detail-status label { font-size: 0.7rem; color: var(--sub); display: block; margin-bottom: 3px; }
+    .detail-status select {
+      width: 100%;
+      padding: 7px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-size: 0.8rem;
+      background: var(--card);
+    }
+
+    .detail-notes { margin: 8px 0; }
+    .detail-notes label { font-size: 0.7rem; color: var(--sub); display: block; margin-bottom: 3px; }
+    .detail-notes textarea {
+      width: 100%;
+      height: 90px;
+      padding: 7px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-size: 0.76rem;
+      resize: vertical;
+      font-family: inherit;
+      line-height: 1.5;
+    }
+
+    .detail-link {
+      display: block;
+      text-align: center;
+      padding: 9px;
+      margin-top: 10px;
+      border-radius: 18px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+    .detail-link:active { opacity: 0.75; }
+
+    .detail-history { margin-top: 10px; }
+    .detail-history h3 { font-size: 0.7rem; color: var(--sub); margin-bottom: 3px; }
+    .detail-history .history-item { font-size: 0.68rem; color: var(--sub); padding: 1px 0; }
+
+    .footer {
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      padding: 7px 14px;
+      font-size: 0.7rem;
+      color: var(--sub);
+      flex-shrink: 0;
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      white-space: nowrap;
+      overflow-x: auto;
+    }
+    .footer b { color: var(--text); }
+
+    .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 90; }
+    .overlay.show { display: block; }
+
+    .detail-close {
+      display: none;
+      position: absolute;
+      top: 6px;
+      right: 8px;
+      background: none;
+      border: none;
+      font-size: 1.1rem;
+      cursor: pointer;
+      color: var(--sub);
+      padding: 2px 6px;
+    }
+
+    @media (max-width: 768px) {
+      body { overflow: auto; height: auto; }
+      .main {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+        padding: 6px;
+        flex: 1;
+      }
+      .panel-left {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 260px;
+        z-index: 100;
+        transform: translateX(-100%);
+        transition: transform 0.2s;
+        border-radius: 0;
+        padding-top: 60px;
+      }
+      .panel-left.open { transform: translateX(0); }
+      .panel-right {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 100;
+        max-height: 55vh;
+        border-radius: 16px 16px 0 0;
+        padding: 16px 14px;
+        transform: translateY(100%);
+        transition: transform 0.25s;
+      }
+      .panel-right.open { transform: translateY(0); }
+      .mobile-filter-btn { display: inline-flex !important; }
+      .detail-close { display: block; }
+      .camp-list.table-view .card {
+        grid-template-columns: 24px 100px 1fr 60px 50px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-top">
+    <h1>🎓 保研夏令营及预推免信息雷达 <span class="version">v2 · 2027届</span></h1>
+    <span class="updated" id="updateTime">加载中...</span>
+    <a href="/" style="color:rgba(255,255,255,0.7);font-size:0.65rem;text-decoration:none;">← 返回简洁版</a>
+    <div style="font-size:0.65rem;opacity:0.7;margin-top:2px">专注2027届能源动力类保研 · 不含新疆/甘肃/西藏/内蒙古/黑龙江/辽宁</div>
+  </div>
+  <div class="search-row">
+    <input type="search" class="search-input" id="searchInput" placeholder="搜索学校、院系、专业、城市... (Ctrl+F)">
+  </div>
+  <div class="change-summary" id="changeSummary"></div>
+  <div class="filter-quick" id="filterQuick"></div>
+</header>
+
+<div class="main">
+  <aside class="panel-left" id="panelLeft">
+    <div class="panel-section" id="priorityFilters"></div>
+    <div class="panel-section" id="categoryFilters"></div>
+    <div class="panel-section" id="degreeFilters"></div>
+    <div class="panel-section" id="typeFilters"></div>
+    <div class="panel-section" id="statusFilters"></div>
+    <div class="panel-section" id="cityFilters"></div>
+  </aside>
+
+  <section class="panel-center">
+    <div class="list-toolbar">
+      <span class="result-count" id="resultCount"></span>
+      <div>
+        <button class="view-btn active" id="viewCard">卡片</button>
+        <button class="view-btn" id="viewTable">表格</button>
+      </div>
+    </div>
+    <div class="active-filters" id="activeFilters"></div>
+    <div class="camp-list" id="campList"></div>
+  </section>
+
+  <aside class="panel-right" id="panelRight">
+    <button class="detail-close" id="detailCloseBtn" onclick="closeDetail()">✕</button>
+    <div class="detail-empty" id="detailEmpty">← 点击夏令营查看详情</div>
+    <div class="detail-content" id="detailContent" style="display:none"></div>
+  </aside>
+</div>
+
+<footer class="footer" id="footer">
+  <span id="footerStats"></span>
+</footer>
+
+<div class="overlay" id="overlay"></div>
+
+<script>
+const LS = {
+  get(key, fallback) {
+    try { const v = localStorage.getItem('baoyan_'+key); return v ? JSON.parse(v) : fallback; }
+    catch { return fallback; }
+  },
+  set(key, val) {
+    try { localStorage.setItem('baoyan_'+key, JSON.stringify(val)); }
+    catch(e) { console.warn('localStorage full', e); }
+  }
+};
+
+const SCORE = {
+  tierScore(j) {
+    const map = { c9: 35, '985': 28, institute: 25, '211': 20, double_first: 18, strong: 12 };
+    return map[j.category] || 10;
+  },
+  degreeScore(j) {
+    const map = { direct_phd: 10, master_academic: 12, master_professional: 8, master_undecided: 10 };
+    return map[j.degree] || 10;
+  },
+  offerScore(j) {
+    return j.outstanding_offer ? 15 : 0;
+  },
+  locationScore(j) {
+    const loc = j.location || '';
+    if (/北京|上海/.test(loc)) return 15;
+    if (/深圳|杭州|广州|南京/.test(loc)) return 12;
+    if (/武汉|成都|西安|天津|苏州|合肥/.test(loc)) return 10;
+    if (/长沙|重庆|厦门|青岛|无锡/.test(loc)) return 8;
+    return 5;
+  },
+  deadlineBonus(j) {
+    let b = 0;
+    if (j.apply_deadline) {
+      const days = (new Date(j.apply_deadline) - new Date()) / 86400000;
+      if (days >= 0 && days <= 5) b += 8;
+      else if (days > 5 && days <= 14) b += 4;
+    }
+    return b;
+  },
+  compute(j) {
+    const total = this.tierScore(j) + this.degreeScore(j) + this.offerScore(j) + this.locationScore(j) + this.deadlineBonus(j);
+    let tier;
+    if (total >= 75) tier = 'S';
+    else if (total >= 60) tier = 'A';
+    else if (total >= 40) tier = 'B';
+    else tier = 'C';
+    return { total, tier };
+  }
+};
+
+const CATS = ['c9','985','211','institute','double_first','strong'];
+const catLabels = { c9:'C9联盟', '985':'985高校', '211':'211高校', institute:'科研院所', double_first:'双一流', strong:'学科强校' };
+const typeLabels = { summer_camp:'夏令营', pre_admission:'预推免', open_day:'开放日', direct_phd:'直博招生' };
+const degreeLabels = { master_academic:'学硕', master_professional:'专硕', direct_phd:'直博', master_undecided:'硕士未区分' };
+const statusLabels = { none:'未报名', applied:'已报名', qualified:'已入营', offer:'获Offer', rejected:'未通过' };
+const tierLabels = { S:'S 级 · 重点冲刺', A:'A 级 · 优先报名', B:'B 级 · 值得尝试', C:'C 级 · 保底/备选' };
+
+let camps = [];
+let scoredCamps = [];
+let selectedId = null;
+let viewMode = 'card';
+let filters = {
+  keyword: '',
+  categories: new Set(),
+  types: new Set(),
+  degrees: new Set(),
+  cities: new Set(),
+  priorities: new Set(),
+  statuses: new Set(),
+  deadline: 'all',
+  onlyChanges: false
+};
+
+function getStatus(campId) {
+  return (LS.get('status', {}))[campId] || 'none';
+}
+
+function detectChanges(camps) {
+  const prev = LS.get('snapshot', {});
+  const changes = { newIds: new Set(), changedIds: new Set(), urgentIds: new Set() };
+  for (const c of camps) {
+    if (c.expired) continue;
+    const prevCamp = prev[c.id];
+    if (!prevCamp) changes.newIds.add(c.id);
+    else if (prevCamp.apply_deadline !== c.apply_deadline || prevCamp.camp_date !== c.camp_date || prevCamp.title !== c.title) changes.changedIds.add(c.id);
+    if (c.apply_deadline) {
+      const days = (new Date(c.apply_deadline) - new Date()) / 86400000;
+      if (days >= 0 && days <= 7) changes.urgentIds.add(c.id);
+    }
+  }
+  const snap = {};
+  for (const c of camps) snap[c.id] = { apply_deadline: c.apply_deadline, camp_date: c.camp_date, title: c.title, expired: c.expired };
+  LS.set('snapshot', snap);
+  return changes;
+}
+
+function applyFilters() {
+  let result = scoredCamps.filter(c => !c.expired);
+  const kw = filters.keyword;
+  if (kw) {
+    result = result.filter(c =>
+      (c.university||'').toLowerCase().includes(kw) ||
+      (c.school||'').toLowerCase().includes(kw) ||
+      (c.title||'').toLowerCase().includes(kw) ||
+      (c.location||'').toLowerCase().includes(kw) ||
+      (c.major||'').toLowerCase().includes(kw) ||
+      (c.requirements||'').toLowerCase().includes(kw)
+    );
+  }
+  if (filters.categories.size > 0) result = result.filter(c => filters.categories.has(c.category));
+  if (filters.types.size > 0) result = result.filter(c => filters.types.has(c.type));
+  if (filters.degrees.size > 0) result = result.filter(c => filters.degrees.has(c.degree));
+  if (filters.cities.size > 0) {
+    result = result.filter(c => {
+      const loc = c.location || '';
+      for (const city of filters.cities) { if (loc.includes(city)) return true; }
+      return false;
+    });
+  }
+  if (filters.priorities.size > 0) result = result.filter(c => filters.priorities.has(c._score.tier));
+  if (filters.statuses.size > 0) result = result.filter(c => filters.statuses.has(getStatus(c.id)));
+  if (filters.deadline !== 'all') {
+    result = result.filter(c => {
+      if (!c.apply_deadline) return false;
+      const days = (new Date(c.apply_deadline) - new Date()) / 86400000;
+      if (filters.deadline === 'week') return days >= 0 && days <= 7;
+      if (filters.deadline === 'month') return days >= 0 && days <= 31;
+      if (filters.deadline === 'nextMonth') return days > 31 && days <= 62;
+      return true;
+    });
+  }
+  if (filters.onlyChanges && window._changes) {
+    const ch = window._changes;
+    result = result.filter(c => ch.newIds.has(c.id) || ch.changedIds.has(c.id) || ch.urgentIds.has(c.id));
+  }
+  result.sort((a,b) => b._score.total - a._score.total);
+  return result;
+}
+
+function formatDeadline(d) {
+  if (!d) return '待定';
+  const dt = new Date(d);
+  const days = Math.ceil((dt - new Date()) / 86400000);
+  const ds = (dt.getMonth()+1)+'月'+dt.getDate()+'日';
+  if (days < 0) return ds + ' 已截止';
+  if (days === 0) return '今天截止';
+  return ds + ' (' + days + '天)';
+}
+
+function getDeadlineClass(d) {
+  if (!d) return 'ok';
+  const days = (new Date(d) - new Date()) / 86400000;
+  if (days < 0) return 'urgent';
+  if (days <= 5) return 'urgent';
+  if (days <= 14) return 'warn';
+  return 'ok';
+}
+
+function highlightText(text) {
+  if (!filters.keyword || !text) return text;
+  const kw = filters.keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text.replace(new RegExp(`(${kw})`, 'gi'), '<mark style="background:#fef08a;padding:0 2px;border-radius:2px">$1</mark>');
+}
+
+function renderFilterQuick() {
+  const container = document.getElementById('filterQuick');
+  const fc = filters.categories;
+  const ft = filters.types;
+  const fd = filters.degrees;
+
+  let html = '';
+  html += `<span class="pill${fc.size===0?' active':''}" data-f="category" data-v="all">全部</span>`;
+  for (const c of CATS) {
+    html += `<span class="pill${fc.has(c)?' active':''}" data-f="category" data-v="${c}">${catLabels[c]}</span>`;
+  }
+  html += '<span style="width:6px"></span>';
+  html += `<span class="pill${ft.size===0?' active':''}" data-f="type" data-v="all">全部类型</span>`;
+  for (const [k,v] of Object.entries(typeLabels)) {
+    html += `<span class="pill${ft.has(k)?' active':''}" data-f="type" data-v="${k}">${v}</span>`;
+  }
+  html += '<span style="width:6px"></span>';
+  html += `<span class="pill${fd.size===0?' active':''}" data-f="degree" data-v="all">全部学位</span>`;
+  for (const [k,v] of Object.entries(degreeLabels)) {
+    html += `<span class="pill${fd.has(k)?' active':''}" data-f="degree" data-v="${k}">${v}</span>`;
+  }
+  html += '<span style="width:6px"></span>';
+  const dls = [['all','全部截止'],['week','本周截止'],['month','本月截止'],['nextMonth','下月截止']];
+  for (const [k,v] of dls) {
+    html += `<span class="pill${filters.deadline===k?' active':''}" data-f="deadline" data-v="${k}">${v}</span>`;
+  }
+  html += '<span style="flex:1"></span>';
+  html += `<span class="pill${filters.onlyChanges?' active':''}" data-f="onlyChanges" data-v="toggle">🔔 仅看变化</span>`;
+  html += '<span class="mobile-filter-btn" id="mobileFilterBtn">☰ 筛选</span>';
+  container.innerHTML = html;
+
+  document.getElementById('mobileFilterBtn').addEventListener('click', () => {
+    document.getElementById('panelLeft').classList.add('open');
+    document.getElementById('overlay').classList.add('show');
+  });
+}
+
+function renderLeftPanel() {
+  const filtered = applyFilters();
+
+  const priCounts = { S:0, A:0, B:0, C:0 };
+  for (const c of filtered) priCounts[c._score.tier]++;
+  let html = '<h3>优先级</h3>';
+  for (const t of ['S','A','B','C']) {
+    const act = filters.priorities.has(t);
+    html += `<div class="filter-item${act?' active':''}" data-f="priority" data-v="${t}"><span>${tierLabels[t]}</span><span class="badge-count">${priCounts[t]}</span></div>`;
+  }
+  document.getElementById('priorityFilters').innerHTML = html;
+
+  const catCounts = {};
+  for (const c of filtered) catCounts[c.category] = (catCounts[c.category]||0) + 1;
+  html = '<h3>学校层次</h3>';
+  for (const c of CATS) {
+    const act = filters.categories.has(c);
+    html += `<div class="filter-item${act?' active':''}" data-f="category" data-v="${c}"><span>${catLabels[c]}</span><span class="badge-count">${catCounts[c]||0}</span></div>`;
+  }
+  document.getElementById('categoryFilters').innerHTML = html;
+
+  const degCounts = {};
+  for (const c of filtered) degCounts[c.degree] = (degCounts[c.degree]||0) + 1;
+  html = '<h3>学位类型</h3>';
+  for (const [k,v] of Object.entries(degreeLabels)) {
+    const act = filters.degrees.has(k);
+    html += `<div class="filter-item${act?' active':''}" data-f="degree" data-v="${k}"><span>${v}</span><span class="badge-count">${degCounts[k]||0}</span></div>`;
+  }
+  document.getElementById('degreeFilters').innerHTML = html;
+
+  const typeCounts = {};
+  for (const c of filtered) typeCounts[c.type] = (typeCounts[c.type]||0) + 1;
+  html = '<h3>招生类型</h3>';
+  for (const [k,v] of Object.entries(typeLabels)) {
+    const act = filters.types.has(k);
+    html += `<div class="filter-item${act?' active':''}" data-f="type" data-v="${k}"><span>${v}</span><span class="badge-count">${typeCounts[k]||0}</span></div>`;
+  }
+  document.getElementById('typeFilters').innerHTML = html;
+
+  const stCounts = { none:0, applied:0, qualified:0, offer:0, rejected:0 };
+  for (const c of filtered) stCounts[getStatus(c.id)]++;
+  html = '<h3>报名状态</h3>';
+  for (const [k,v] of Object.entries(statusLabels)) {
+    const act = filters.statuses.has(k);
+    html += `<div class="filter-item${act?' active':''}" data-f="status" data-v="${k}"><span>${v}</span><span class="badge-count">${stCounts[k]}</span></div>`;
+  }
+  document.getElementById('statusFilters').innerHTML = html;
+
+  const cities = new Map();
+  for (const c of filtered) {
+    const loc = c.location || '';
+    const parts = loc.split(/[/,、，/]/);
+    for (const part of parts) {
+      const city = part.trim().replace(/等$/,'').replace(/^\d+[个余]?/,'').replace(/大学城|新区|区$/,'');
+      if (city && city.length >= 2 && city.length <= 8) cities.set(city, (cities.get(city)||0) + 1);
+    }
+  }
+  const sorted = [...cities.entries()].sort((a,b) => b[1]-a[1]).slice(0, 15);
+  html = '<h3>城市</h3>';
+  for (const [city, count] of sorted) {
+    const act = filters.cities.has(city);
+    html += `<div class="filter-item${act?' active':''}" data-f="city" data-v="${encodeURIComponent(city)}"><span>${city}</span><span class="badge-count">${count}</span></div>`;
+  }
+  document.getElementById('cityFilters').innerHTML = html;
+}
+
+function renderCampList() {
+  const filtered = applyFilters();
+  const listEl = document.getElementById('campList');
+
+  document.getElementById('resultCount').textContent = `共 ${filtered.length} 个夏令营/预推免`;
+
+  const chipData = [];
+  const addChip = (label, fn) => chipData.push({ label, fn });
+  for (const c of filters.categories) addChip(catLabels[c], ()=>{ filters.categories.delete(c); renderAll(); });
+  for (const t of filters.types) addChip(typeLabels[t], ()=>{ filters.types.delete(t); renderAll(); });
+  for (const d of filters.degrees) addChip(degreeLabels[d], ()=>{ filters.degrees.delete(d); renderAll(); });
+  for (const c of filters.cities) addChip(c, ()=>{ filters.cities.delete(c); renderAll(); });
+  for (const p of filters.priorities) addChip(p+'级', ()=>{ filters.priorities.delete(p); renderAll(); });
+  for (const s of filters.statuses) addChip(statusLabels[s], ()=>{ filters.statuses.delete(s); renderAll(); });
+  if (filters.deadline !== 'all') {
+    const m = { week:'本周截止', month:'本月截止', nextMonth:'下月截止' };
+    addChip(m[filters.deadline], ()=>{ filters.deadline='all'; renderAll(); });
+  }
+
+  const afEl = document.getElementById('activeFilters');
+  afEl.innerHTML = chipData.map((c,i) => `<span class="chip" data-ci="${i}">${c.label}</span>`).join('');
+  afEl.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => { const i = parseInt(chip.dataset.ci); chipData[i].fn(); });
+  });
+
+  if (filtered.length === 0) {
+    listEl.className = 'camp-list';
+    listEl.innerHTML = '<div class="detail-empty">📭 无匹配信息，试试调整筛选条件</div>';
+    return;
+  }
+
+  listEl.className = 'camp-list' + (viewMode === 'table' ? ' table-view' : '');
+
+  if (viewMode === 'table') {
+    listEl.innerHTML = `
+      <div class="card" style="font-weight:700;border-bottom:2px solid var(--border);cursor:default;background:var(--bg)">
+        <span></span><span>学校</span><span>夏令营名称</span><span>学院</span><span>截止</span><span>类型</span>
+      </div>` +
+      filtered.map(c => renderTableRow(c)).join('');
+  } else {
+    listEl.innerHTML = filtered.map(c => renderCard(c)).join('');
+  }
+}
+
+function renderCard(c) {
+  const st = getStatus(c.id);
+  const hasNote = !!(LS.get('notes',{})[c.id]||'').trim();
+  const ch = window._changes || { newIds:new Set(), changedIds:new Set(), urgentIds:new Set() };
+  const t = c._score.tier;
+  const isSel = selectedId === c.id;
+
+  return `<div class="card ${c.category}${isSel?' selected':''}" data-id="${c.id}">
+    <div class="card-top">
+      <div>
+        <span class="card-university">${highlightText(c.university)}</span>
+        <span class="card-school">${highlightText(c.school)}</span>
+      </div>
+      <span class="card-badges">
+        <span class="badge p-${t.toLowerCase()}">${t}</span>
+        <span class="badge ${c.type}">${typeLabels[c.type]||c.type}</span>
+        <span class="badge ${c.degree}">${degreeLabels[c.degree]||c.degree}</span>
+        ${c.outstanding_offer?'<span class="badge offer-yes">优营=录取</span>':''}
+        ${st!=='none'?`<span class="badge st-${st}">${statusLabels[st]}</span>`:''}
+        ${ch.newIds.has(c.id)?'<span class="badge new">🆕</span>':''}
+        ${ch.changedIds.has(c.id)?'<span class="badge changed">⚡</span>':''}
+        ${ch.urgentIds.has(c.id)?'<span class="badge urgent">⚠️</span>':''}
+        ${hasNote?'<span class="badge has-note">📝</span>':''}
+      </span>
+    </div>
+    <div class="card-title">${highlightText(c.title)}</div>
+    <div class="card-meta">
+      ${c.location?`<span>📍 ${c.location}</span>`:''}
+      ${c.camp_date?`<span>📅 ${c.camp_date}</span>`:''}
+      ${c.quota?`<span>👥 ${c.quota}人</span>`:''}
+    </div>
+    <div class="card-footer">
+      <span class="card-deadline ${getDeadlineClass(c.apply_deadline)}">⏰ ${formatDeadline(c.apply_deadline)}</span>
+      ${c.benefits?`<span style="font-size:0.65rem;color:var(--sub)">${c.benefits.substring(0,12)}…</span>`:''}
+    </div>
+  </div>`;
+}
+
+function renderTableRow(c) {
+  const t = c._score.tier;
+  return `<div class="card ${c.category}" data-id="${c.id}">
+    <span class="badge p-${t.toLowerCase()}" style="font-size:0.58rem">${t}</span>
+    <span style="font-weight:600;font-size:0.72rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.university}</span>
+    <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.title}</span>
+    <span style="font-size:0.68rem;color:var(--sub);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.school}</span>
+    <span class="card-deadline ${getDeadlineClass(c.apply_deadline)}" style="font-size:0.66rem">${c.apply_deadline?formatDeadline(c.apply_deadline):'待定'}</span>
+    <span style="font-size:0.66rem;color:var(--sub)">${typeLabels[c.type]||c.type}</span>
+  </div>`;
+}
+
+function selectCamp(id) {
+  selectedId = id;
+  renderCampList();
+  renderDetail(id);
+  if (window.innerWidth <= 768) {
+    document.getElementById('panelRight').classList.add('open');
+    document.getElementById('overlay').classList.add('show');
+  }
+}
+
+function closeDetail() {
+  document.getElementById('panelRight').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+function renderDetail(id) {
+  const c = scoredCamps.find(c => c.id === id);
+  if (!c) return;
+  document.getElementById('detailEmpty').style.display = 'none';
+  const dc = document.getElementById('detailContent');
+  dc.style.display = 'block';
+  const st = getStatus(id);
+  const note = (LS.get('notes',{}))[id] || '';
+
+  dc.innerHTML = `
+    <h2>${c.title}</h2>
+    <div class="detail-row"><span class="detail-label">学校</span><span class="detail-value">${c.university}</span></div>
+    <div class="detail-row"><span class="detail-label">院系</span><span class="detail-value">${c.school}</span></div>
+    <div class="detail-row"><span class="detail-label">地点</span><span class="detail-value">${c.location||'--'}</span></div>
+    <div class="detail-row"><span class="detail-label">招生类型</span><span class="detail-value"><span class="badge ${c.type}">${typeLabels[c.type]||c.type}</span></span></div>
+    <div class="detail-row"><span class="detail-label">学位类型</span><span class="detail-value"><span class="badge ${c.degree}">${degreeLabels[c.degree]||c.degree}</span></span></div>
+    <div class="detail-row"><span class="detail-label">面向</span><span class="detail-value">${c.target||'--'}</span></div>
+    <div class="detail-row"><span class="detail-label">专业要求</span><span class="detail-value">${c.major||'--'}</span></div>
+    <div class="detail-row"><span class="detail-label">报名要求</span><span class="detail-value">${c.requirements||'--'}</span></div>
+    <div class="detail-row"><span class="detail-label">报名截止</span><span class="detail-value"><span class="card-deadline ${getDeadlineClass(c.apply_deadline)}">${formatDeadline(c.apply_deadline)}</span></span></div>
+    <div class="detail-row"><span class="detail-label">夏令营时间</span><span class="detail-value">${c.camp_date||'--'}</span></div>
+    <div class="detail-row"><span class="detail-label">名额</span><span class="detail-value">${c.quota?c.quota+'人':'--'}</span></div>
+    <div class="detail-row"><span class="detail-label">待遇</span><span class="detail-value">${c.benefits||'--'}</span></div>
+    <div class="detail-row"><span class="detail-label">优营效力</span><span class="detail-value">${c.outstanding_offer?'<span style="color:#16a34a;font-weight:700">优营直接录取</span>':'需参加预推免'}</span></div>
+    <div class="detail-row"><span class="detail-label">优先级评分</span><span class="detail-value"><span class="badge p-${c._score.tier.toLowerCase()}">${c._score.tier} 级 (${c._score.total}分)</span></span></div>
+    <div class="detail-status">
+      <label>报名状态</label>
+      <select onchange="updateStatus('${id}', this.value)">
+        ${Object.entries(statusLabels).map(([k,v]) => `<option value="${k}"${st===k?' selected':''}>${v}</option>`).join('')}
+      </select>
+    </div>
+    <div class="detail-notes">
+      <label>📝 私人备注</label>
+      <textarea placeholder="写点备注..." onblur="saveNote('${id}', this.value)">${note}</textarea>
+    </div>
+    ${c.link ? `<a class="detail-link" href="${c.link}" target="_blank" rel="noopener" onclick="event.stopPropagation()">查看官网详情 →</a>` : ''}
+    <div class="detail-history">
+      <h3>收录信息</h3>
+      <div class="history-item">首次收录: ${c.first_seen||'未知'}</div>
+      <div class="history-item">来源: ${c.source||'未知'}</div>
+    </div>
+  `;
+}
+
+function updateStatus(campId, newStatus) {
+  const all = LS.get('status', {});
+  all[campId] = newStatus;
+  LS.set('status', all);
+  renderCampList();
+}
+
+let noteTimer;
+function saveNote(campId, text) {
+  clearTimeout(noteTimer);
+  noteTimer = setTimeout(() => {
+    const all = LS.get('notes', {});
+    if (text.trim()) all[campId] = text; else delete all[campId];
+    LS.set('notes', all);
+    renderCampList();
+  }, 800);
+}
+
+function renderFooter() {
+  const active = scoredCamps.filter(c => !c.expired);
+  const st = LS.get('status', {});
+  let applied=0, qualified=0, offer=0;
+  for (const c of active) {
+    const s = st[c.id]||'none';
+    if (s==='applied') applied++;
+    else if (s==='qualified') qualified++;
+    else if (s==='offer') offer++;
+  }
+  const ch = window._changes || { newIds:new Set(), changedIds:new Set(), urgentIds:new Set() };
+  document.getElementById('footerStats').innerHTML =
+    `共 <b>${scoredCamps.length}</b> 项 · <b>${active.length}</b> 活跃 · ` +
+    `🆕<b>${ch.newIds.size}</b> · ⚡<b>${ch.changedIds.size}</b> · ⚠️即将截止<b>${ch.urgentIds.size}</b> · ` +
+    `📝<b>${applied}</b> · ✅<b>${qualified}</b> · 🎉<b>${offer}</b>`;
+}
+
+function renderAll() {
+  renderFilterQuick();
+  renderLeftPanel();
+  renderCampList();
+  renderFooter();
+}
+
+// Event: quick filter bar
+document.getElementById('filterQuick').addEventListener('click', e => {
+  const el = e.target.closest('[data-f]');
+  if (!el) return;
+  const f = el.dataset.f, v = el.dataset.v;
+  if (f === 'category') {
+    v === 'all' ? filters.categories.clear() : (filters.categories.has(v) ? filters.categories.delete(v) : filters.categories.add(v));
+  } else if (f === 'type') {
+    v === 'all' ? filters.types.clear() : (filters.types.has(v) ? filters.types.delete(v) : filters.types.add(v));
+  } else if (f === 'degree') {
+    v === 'all' ? filters.degrees.clear() : (filters.degrees.has(v) ? filters.degrees.delete(v) : filters.degrees.add(v));
+  } else if (f === 'deadline') {
+    filters.deadline = v;
+  } else if (f === 'onlyChanges') {
+    filters.onlyChanges = !filters.onlyChanges;
+  }
+  renderAll();
+});
+
+// Event: left panel
+document.getElementById('panelLeft').addEventListener('click', e => {
+  const el = e.target.closest('[data-f]');
+  if (!el) return;
+  const f = el.dataset.f, v = decodeURIComponent(el.dataset.v);
+  const sets = { priority: filters.priorities, category: filters.categories, degree: filters.degrees, type: filters.types, status: filters.statuses, city: filters.cities };
+  if (sets[f]) { sets[f].has(v) ? sets[f].delete(v) : sets[f].add(v); }
+  renderAll();
+});
+
+// Event: center list click → select camp
+document.getElementById('campList').addEventListener('click', e => {
+  const card = e.target.closest('.card[data-id]');
+  if (!card) return;
+  selectCamp(card.dataset.id);
+});
+
+// Event: keyword search (debounced)
+let searchTimer;
+document.getElementById('searchInput').addEventListener('input', () => {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => {
+    filters.keyword = document.getElementById('searchInput').value.trim().toLowerCase();
+    renderAll();
+  }, 200);
+});
+
+// Event: view toggle
+document.getElementById('viewCard').addEventListener('click', () => { viewMode='card'; document.getElementById('viewCard').classList.add('active'); document.getElementById('viewTable').classList.remove('active'); renderAll(); });
+document.getElementById('viewTable').addEventListener('click', () => { viewMode='table'; document.getElementById('viewTable').classList.add('active'); document.getElementById('viewCard').classList.remove('active'); renderAll(); });
+
+// Event: overlay close
+document.getElementById('overlay').addEventListener('click', () => {
+  document.getElementById('panelLeft').classList.remove('open');
+  document.getElementById('panelRight').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+});
+
+// Keyboard: Esc to clear, Ctrl+F to focus search
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && document.activeElement !== document.getElementById('searchInput')) {
+    document.getElementById('searchInput').value = '';
+    filters.keyword = '';
+    renderAll();
+  }
+  if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+    e.preventDefault();
+    document.getElementById('searchInput').focus();
+  }
+});
+
+// Data loading
+async function loadData() {
+  try {
+    const resp = await fetch('/data/camps.json', { cache: 'no-cache' });
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const data = await resp.json();
+    camps = data.camps;
+    scoredCamps = camps.map(c => ({ ...c, _score: SCORE.compute(c) }));
+    window._changes = detectChanges(camps);
+    document.getElementById('updateTime').textContent =
+      '更新于 ' + (data.updated_at ? data.updated_at.slice(0,16).replace('T',' ') : '未知');
+    const ch = window._changes;
+    document.getElementById('changeSummary').innerHTML =
+      `<span>🆕 新增 <b>${ch.newIds.size}</b></span><span>⚡ 变更 <b>${ch.changedIds.size}</b></span><span>⚠️ 即将截止 <b>${ch.urgentIds.size}</b></span>`;
+    renderAll();
+  } catch (err) {
+    document.getElementById('campList').innerHTML = '<div class="detail-empty">⚠️ 数据加载失败，请检查网络后刷新</div>';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', loadData);
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js');
+}
+</script>
+
+</body>
+</html>
