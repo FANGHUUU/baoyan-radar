@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-06-16T10:00:00+08:00",
-  "total": 37,
+  "updated_at": "2026-06-17T10:00:00+08:00",
+  "total": 39,
   "by_category": {
-    "c9": 6,
+    "c9": 8,
     "985": 11,
     "211": 5,
     "institute": 9,
@@ -13,7 +13,7 @@
     "master_academic": 14,
     "master_professional": 8,
     "direct_phd": 5,
-    "master_undecided": 10
+    "master_undecided": 12
   },
   "camps": [
     {
@@ -828,6 +828,50 @@
       "link": "https://www.epe.sdu.edu.cn",
       "source": "山大核科学与能源动力学院官网",
       "first_seen": "2026-06-16",
+      "expired": false
+    },
+    {
+      "id": "xjtu-energy-storage-summer",
+      "category": "c9",
+      "type": "summer_camp",
+      "degree": "master_undecided",
+      "university": "西安交通大学",
+      "school": "国家储能技术产教融合创新平台(中心)",
+      "title": "第四届全国优秀大学生夏令营(储能/能动/电气/材料)",
+      "location": "线上",
+      "apply_deadline": "2026-06-26",
+      "camp_date": "2026-07-15~2026-07-18",
+      "target": "2027届本科(大三)",
+      "major": "储能科学与工程, 能源与动力工程, 电气工程, 材料, 化学工程, 物理",
+      "requirements": "专业排名前30%, 双一流/B+以上学科优先",
+      "benefits": "线上, 优秀营员推免优先录取",
+      "quota": 100,
+      "outstanding_offer": true,
+      "link": "https://gjcnpt.xjtu.edu.cn",
+      "source": "西交国家储能平台官网",
+      "first_seen": "2026-06-17",
+      "expired": false
+    },
+    {
+      "id": "xjtu-future-tech-summer",
+      "category": "c9",
+      "type": "summer_camp",
+      "degree": "master_undecided",
+      "university": "西安交通大学",
+      "school": "未来技术学院",
+      "title": "第六届优秀大学生科创夏令营(储能/智能制造/医工学)",
+      "location": "西安",
+      "apply_deadline": "2026-07-05",
+      "camp_date": "2026-07-20~2026-07-25",
+      "target": "2027届本科(大三)",
+      "major": "储能科学与工程, 能源与动力工程, 机械工程, 自动化, 电子",
+      "requirements": "专业排名前30%, 对储能/智能制造有浓厚兴趣",
+      "benefits": "免费食宿, 往返交通补贴",
+      "quota": 60,
+      "outstanding_offer": true,
+      "link": "https://wljsxy.xjtu.edu.cn",
+      "source": "西交未来技术学院官网",
+      "first_seen": "2026-06-17",
       "expired": false
     }
   ]
