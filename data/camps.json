@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-06-19T20:30:00+08:00",
-  "total": 43,
+  "updated_at": "2026-06-20T23:00:00+08:00",
+  "total": 44,
   "by_category": {
-    "c9": 9,
+    "c9": 10,
     "985": 11,
     "211": 6,
     "institute": 10,
@@ -13,7 +13,7 @@
     "master_academic": 14,
     "master_professional": 8,
     "direct_phd": 5,
-    "master_undecided": 16
+    "master_undecided": 17
   },
   "camps": [
     {
@@ -168,6 +168,28 @@
       "link": "https://eng.nju.edu.cn",
       "source": "南大现代工学院官网",
       "first_seen": "2026-06-19",
+      "expired": false
+    },
+    {
+      "id": "hit-energy-summer-camp",
+      "category": "c9",
+      "type": "summer_camp",
+      "degree": "master_undecided",
+      "university": "哈尔滨工业大学",
+      "school": "能源科学与工程学院",
+      "title": "2026年学术交流营(动力工程及工程热物理/能源动力/碳中和方向)",
+      "location": "哈尔滨",
+      "apply_deadline": "2026-06-30",
+      "camp_date": "2026-07-14~2026-07-17",
+      "target": "2027届本科(大三)",
+      "major": "能源与动力工程, 飞行器与动力工程, 核工程与核技术, 电气, 机械, 储能",
+      "requirements": "有望获得推免资格, 英语水平良好",
+      "benefits": "免费食宿, 可自愿停留一周深入了解实验室",
+      "quota": 60,
+      "outstanding_offer": true,
+      "link": "http://power.hit.edu.cn/2026/0616/c5714a394190/page.htm",
+      "source": "哈工大能源学院官网",
+      "first_seen": "2026-06-20",
       "expired": false
     },
     {
