@@ -99,7 +99,7 @@
       "benefits": "免费食宿, 交通自理",
       "quota": 60,
       "outstanding_offer": true,
-      "link": "https://www.doe.zju.edu.cn",
+      "link": "http://www.doe.zju.edu.cn",
       "source": "浙大能源学院官网",
       "first_seen": "2026-06-10",
       "expired": false
@@ -914,7 +914,7 @@
       "benefits": "免费食宿",
       "quota": 40,
       "outstanding_offer": true,
-      "link": "https://ny.jiangsu.edu.cn",
+      "link": "https://sepe.ujs.edu.cn",
       "source": "江大能源学院官网",
       "first_seen": "2026-06-15",
       "expired": false
