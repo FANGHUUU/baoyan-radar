@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-20T23:00:00+08:00",
+  "updated_at": "2026-06-21T23:00:00+08:00",
   "total": 44,
   "by_category": {
     "c9": 10,
@@ -146,7 +146,7 @@
       "link": "https://ses.ustc.edu.cn/_t1596/2026/0525/c1690a741594/page.htm",
       "source": "中科大工科院官网",
       "first_seen": "2026-06-10",
-      "expired": false,
+      "expired": true,
       "requirements": "专业排名前20%, CET6≥425, 有望获得推免资格"
     },
     {
@@ -301,7 +301,7 @@
       "link": "https://mefaculty.tongji.edu.cn",
       "source": "同济机能学院官网",
       "first_seen": "2026-06-12",
-      "expired": false
+      "expired": true
     },
     {
       "id": "beihang-energy-summer",
