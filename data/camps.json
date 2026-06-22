@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-21T23:00:00+08:00",
+  "updated_at": "2026-06-22T23:00:00+08:00",
   "total": 44,
   "by_category": {
     "c9": 10,
@@ -675,7 +675,7 @@
       "link": "https://ipc.cas.cn/yjsjy2019/zsxx/202605/t20260508_8197625.html",
       "source": "中科院理化所官网",
       "first_seen": "2026-06-16",
-      "expired": false
+      "expired": true
     },
     {
       "id": "sxicc-cas-summer",
